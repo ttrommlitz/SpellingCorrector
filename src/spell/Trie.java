@@ -26,9 +26,8 @@ public class Trie implements ITrie {
         -set currentNode to currentNode.children[index]
         -set currLetter to next letter in word
 
-        -at end of loop, increment wordCount for currNode
+        -at end of loop, increment count for currNode
          */
-        wordCount++;
         word = word.toLowerCase();
         Node currNode = root;
         for (int i = 0; i < word.length(); i++) {
@@ -40,22 +39,23 @@ public class Trie implements ITrie {
             }
             currNode = currNode.getChildren()[index];
         }
-        currNode.setCount(currNode.getValue() + 1);
+        currNode.incrementValue();
+        if (currNode.getValue() == 1) { wordCount++; }
     }
 
     @Override
     public INode find(String word) {
-        String word2 = word.toLowerCase();
         Node currentNode = root;
-        for (int i = 0; i < word2.length(); i++) {
-            char currLetter = word2.charAt(i);
+        for (int i = 0; i < word.length(); i++) {
+            char currLetter = word.charAt(i);
             int index = currLetter - 'a';
             if (currentNode.getChildren()[index] == null) {
                 return null;
             }
             currentNode = currentNode.getChildren()[index];
         }
-        return currentNode;
+        if (currentNode.getValue() != 0) { return currentNode; }
+        return null;
     }
 
     @Override
