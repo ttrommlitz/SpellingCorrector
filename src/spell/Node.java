@@ -22,4 +22,8 @@ public class Node implements INode {
     public Node[] getChildren() { //TODO: consider returning INode[] instead of Node[]
         return children;
     }
+
+    public void setCount(int count) {
+        this.count = count;
+    }
 }

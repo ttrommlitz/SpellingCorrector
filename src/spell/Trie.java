@@ -4,6 +4,12 @@ public class Trie implements ITrie {
     private Node root;
     private int wordCount;
     private int nodeCount;
+
+    public Trie() {
+        root = new Node();
+        wordCount = 0;
+        nodeCount = 1;
+    }
     @Override
     public void add(String word) {
         /*
@@ -20,13 +26,36 @@ public class Trie implements ITrie {
         -set currentNode to currentNode.children[index]
         -set currLetter to next letter in word
 
-        -at end of loop, set counter for that word (currentNode) to be one
+        -at end of loop, increment wordCount for currNode
          */
+        wordCount++;
+        word = word.toLowerCase();
+        Node currNode = root;
+        for (int i = 0; i < word.length(); i++) {
+            char currLetter = word.charAt(i);
+            int index = currLetter - 'a';
+            if (currNode.getChildren()[index] == null) {
+                currNode.getChildren()[index] = new Node();
+                nodeCount++;
+            }
+            currNode = currNode.getChildren()[index];
+        }
+        currNode.setCount(currNode.getValue() + 1);
     }
 
     @Override
     public INode find(String word) {
-        return null;
+        String word2 = word.toLowerCase();
+        Node currentNode = root;
+        for (int i = 0; i < word2.length(); i++) {
+            char currLetter = word2.charAt(i);
+            int index = currLetter - 'a';
+            if (currentNode.getChildren()[index] == null) {
+                return null;
+            }
+            currentNode = currentNode.getChildren()[index];
+        }
+        return currentNode;
     }
 
     @Override
@@ -67,6 +96,7 @@ public class Trie implements ITrie {
         Combine: wordCount, nodeCount, and index of each non-null child of the root
          */
         int hash = wordCount * (nodeCount << 1);
+        //TODO: Rewrite to be constant time
         for (int i = 0; i < root.getChildren().length; i++) {
             if (root.getChildren()[i] != null) {
                 hash += i;
