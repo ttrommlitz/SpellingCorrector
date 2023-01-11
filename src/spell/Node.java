@@ -19,7 +19,7 @@ public class Node implements INode {
     }
 
     @Override
-    public Node[] getChildren() { //TODO: consider returning INode[] instead of Node[]
+    public Node[] getChildren() {
         return children;
     }
 

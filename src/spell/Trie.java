@@ -12,22 +12,6 @@ public class Trie implements ITrie {
     }
     @Override
     public void add(String word) {
-        /*
-        increment wordCount
-        -Convert word to lowercase
-        -process each character, one at a time (loop)
-        -start inserting at the root
-        -array index = currLetter - 'a'
-        -char letter = (char)('a' + index)
-
-        (loop)
-        -find child in current node that corresponds to currLetter
-        -See if there is a node there, if not create a new one at currentNode.children[index] (increment nodeCount)
-        -set currentNode to currentNode.children[index]
-        -set currLetter to next letter in word
-
-        -at end of loop, increment count for currNode
-         */
         word = word.toLowerCase();
         Node currNode = root;
         for (int i = 0; i < word.length(); i++) {
@@ -92,19 +76,14 @@ public class Trie implements ITrie {
 
     @Override
     public int hashCode() {
-        /*
-        Combine: wordCount, nodeCount, and index of each non-null child of the root
-         */
         int hash = wordCount * (nodeCount << 1);
-        //TODO: Rewrite to be constant time
-        for (int i = 0; i < root.getChildren().length; i++) {
+        for (int i = 0; i < root.getChildren().length; i++) { //Still is constant time because it is bounded by 26 rather than variable
             if (root.getChildren()[i] != null) {
                 hash += i;
             }
         }
         return hash;
     }
-
     //helpers
     private void toStringHelper(Node currNode, StringBuilder currWord, StringBuilder output) {
         if (currNode.getValue() > 0) {
